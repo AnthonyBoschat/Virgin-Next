@@ -6,7 +6,6 @@ import s from "./styles.module.scss"
 export default function Home() {
 
   const mounted = useMounted()
-  
 
   
 

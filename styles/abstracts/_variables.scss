@@ -24,6 +24,11 @@ $state-error: rgb(228, 15, 15);
 $state-error-dark: rgb(165, 10, 10);
 $state-success: rgb(4, 123, 0);
 
+// Toast
+$toast-success: rgba(4, 123, 0, 1);
+$toast-warning: rgba(188, 116, 0, 1);
+$toast-error: rgba(165, 10, 10, 1);
+
 
 
 // =============================
@@ -60,5 +65,10 @@ $breakpoints: (
   --state-error: #{$state-error};
   --state-error-dark: #{$state-error-dark};
   --state-success: #{$state-success};
+
+  // Toast
+  --toast-success: #{$toast-success};
+  --toast-warning: #{$toast-warning};
+  --toast-error: #{$toast-error};
 
 }

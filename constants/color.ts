@@ -12,6 +12,11 @@ const COLOR = {
     errorDark: 'var(--state-error-dark)',
     success: 'var(--state-success)',
   },
+  toast: {
+    success: 'var(--toast-success)',
+    warning: 'var(--toast-warning)',
+    error: 'var(--toast-error)',
+  }
 };
 
 export default COLOR;
