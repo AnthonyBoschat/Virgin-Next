@@ -1,0 +1,64 @@
+
+// =============================
+// PALETTE DE COULEURS
+// =============================
+
+// Simplo
+$simplo: rgb(0, 41, 124);
+
+// Couleurs de fond
+$bg-primary: rgb(235, 241, 245); // background principal
+$bg-surface: rgb(251, 251, 251);
+
+// Couleurs de texte
+$text-primary: rgb(0, 41, 124); // texte principal
+$text-primary-80: rgba(0, 41, 124, 0.80);
+
+// Dark
+$text-dark: rgb(14, 14, 14);
+$text-dark-light: rgb(50, 50, 50);
+
+
+// Couleurs d'état
+$state-error: rgb(228, 15, 15);
+$state-error-dark: rgb(165, 10, 10);
+$state-success: rgb(4, 123, 0);
+
+
+
+// =============================
+// TYPOGRAPHIE
+// =============================
+$font-primary: "Arimo", sans-serif;
+
+// =============================
+// BREAKPOINTS
+// =============================
+$breakpoints: (
+  "mobile": 480px,
+  "tablet": 768px,
+  "desktop": 1200px,
+  "wide": 1440px
+);
+
+// =============================
+// VARIABLES CSS POUR :root
+// =============================
+:root {
+  // Simplo
+  --simplo: #{$simplo};
+
+  // Background
+  --bg-primary: #{$bg-primary};
+  --bg-surface: #{$bg-surface};
+
+  // Text
+  --text-primary: #{$text-primary};
+  --text-primary-80: #{$text-primary-80};
+
+  // State
+  --state-error: #{$state-error};
+  --state-error-dark: #{$state-error-dark};
+  --state-success: #{$state-success};
+
+}
