@@ -1,7 +1,7 @@
 "use client"
 
 import { Status } from "@prisma/client"
-import s from "../../styles.module.scss"
+import s from "../styles.module.scss"
 import withClass from "@/utils/class"
 // import { useEffect } from "react"
 import { updateStatusState } from "@/app/actions/status"

@@ -8,6 +8,10 @@
   background: $bg-surface !important;
   color: $text-primary !important;
   font-size: 0.8rem;
+  max-width: 35rem;
+  width: fit-content;
+  padding: 1rem 1rem;
+  font-size: 1rem;
 }
 
 .Toastify__close-button {
