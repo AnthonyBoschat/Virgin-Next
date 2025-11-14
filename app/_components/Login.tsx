@@ -32,6 +32,7 @@ export default function AppLogin({
       toast.error("Impossible de vous connecter. Vérifiez vos identifiants et réessayez.")
     } else {
       router.push("/dashboard")
+      toast.success("Connexion réussi")
     }
   }
 
