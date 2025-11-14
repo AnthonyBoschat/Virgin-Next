@@ -1,36 +1,243 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Virgin - Next.js Starter Template
 
-## Getting Started
+Template de démarrage Next.js avec authentification, base de données Prisma, Redux et configuration clé en main.
 
-First, run the development server:
+## 🚀 Installation rapide
 
+### Prérequis
+- Node.js 18 ou supérieur
+- npm ou yarn
+- Git
+
+### Installation en 5 minutes
+
+#### 1. Cloner le projet
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <url-du-repo> nom_du_projet
+cd nom_du_projet
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### 2. Installer les dépendances
+```bash
+npm install
+# ou avec Make
+make install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### 3. Configurer l'environnement
+```bash
+# Copier le fichier d'exemple
+cp .env.example .env.local
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Générer une clé secrète pour NextAuth
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
 
-## Learn More
+Copier la clé générée et la coller dans `NEXTAUTH_SECRET` dans `.env.local`
 
-To learn more about Next.js, take a look at the following resources:
+#### 4. Initialiser la base de données
+```bash
+# Générer le client Prisma
+npx prisma generate
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Créer la base de données et appliquer les migrations
+npx prisma migrate dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ou avec Make :
+```bash
+make setup
+```
 
-## Deploy on Vercel
+#### 5. Lancer l'application
+```bash
+npm run dev
+# ou
+make dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+✅ **L'application est maintenant accessible sur [http://localhost:3000](http://localhost:3000)**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Configuration
+
+### Variables d'environnement requises
+
+Votre fichier `.env.local` doit contenir au minimum :
+
+```env
+# Base de données
+DATABASE_URL="file:./database.db"  # SQLite par défaut
+
+# Authentification
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=<votre_clé_secrète_générée>
+
+# API
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+### Structure du projet
+
+```
+virgin/
+├── app/                  # Routes et pages Next.js
+│   ├── api/             # Routes API
+│   │   ├── auth/        # NextAuth endpoints
+│   │   └── register/    # Inscription
+│   ├── login/           # Page de connexion
+│   ├── register/        # Page d'inscription
+│   └── dashboard/       # Dashboard (protégé)
+├── lib/                 # Utilitaires
+│   ├── prisma.ts       # Client Prisma
+│   ├── axios.ts        # Instance Axios configurée
+│   └── api-response.ts # Helpers pour les réponses API
+├── prisma/
+│   └── schema.prisma   # Schéma de base de données
+├── types/              # Types TypeScript
+└── middleware.ts       # Protection des routes
+```
+
+## 🛠️ Commandes disponibles
+
+### Avec npm
+```bash
+npm run dev         # Serveur de développement
+npm run build       # Build de production
+npm run start       # Lancer en production
+npm run lint        # Vérifier le code
+```
+
+### Avec Make
+```bash
+# Base de données
+make migrate name=nom   # Créer une migration
+make studio            # Interface graphique BDD
+make reset            # ⚠️ Réinitialiser la BDD
+make push             # Push le schema sans migration
+
+# Développement
+make dev              # Lancer le serveur
+make build            # Build de production
+make lint             # Linter
+
+# Installation
+make setup            # Installation complète
+make clean            # Nettoyer et réinstaller
+make restart          # Redémarrage propre
+```
+
+## 🔐 Authentification
+
+### Routes disponibles
+- `/` - Page d'accueil
+- `/dashboard` - Dashboard (route protégée)
+
+### Utilisation dans le code
+
+```typescript
+// Côté client
+import { useSession, signIn, signOut } from "next-auth/react"
+
+// Connexion
+await signIn("credentials", {
+  email: "user@example.com",
+  password: "password",
+  redirect: false
+})
+
+// Déconnexion
+await signOut({ callbackUrl: "/" })
+
+// Récupérer la session
+const { data: session, status } = useSession()
+if (session) {
+  console.log(session.user.email)
+}
+```
+
+## 🗄️ Base de données
+
+### Prisma Studio
+Pour visualiser et éditer vos données :
+```bash
+make studio
+# ou
+npx prisma studio
+```
+
+### Créer une migration
+```bash
+make migrate name=ajout_champ_user
+# ou
+npx prisma migrate dev --name ajout_champ_user
+```
+
+### Modèle User par défaut
+```prisma
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+## 🐛 Dépannage
+
+### Erreur "DATABASE_URL not set"
+➜ Vérifier que `.env.local` existe et contient `DATABASE_URL`
+
+### Erreur "Invalid NEXTAUTH_SECRET"
+➜ Générer une nouvelle clé :
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+### La base de données est corrompue
+➜ Réinitialiser :
+```bash
+make reset
+# ou
+npx prisma migrate reset
+```
+
+### Les types Prisma ne sont pas reconnus
+➜ Régénérer le client :
+```bash
+make generate
+# ou
+npx prisma generate
+```
+
+## 📚 Stack technique
+
+- **Framework** : Next.js 14 (App Router)
+- **Base de données** : Prisma avec SQLite (dev) / PostgreSQL (prod)
+- **Authentification** : NextAuth.js
+- **Styles** : Sass
+- **State** : Redux Toolkit
+- **HTTP Client** : Axios
+- **Language** : TypeScript
+
+## 📝 Prochaines étapes
+
+1. Modifier le schéma Prisma selon vos besoins
+2. Ajouter vos propres pages dans `/app`
+3. Configurer les services externes (email, storage, etc.)
+4. Personnaliser les styles dans `/styles`
+5. Ajouter des middlewares Redux si nécessaire
+
+## 🤝 Contribution
+
+Ce projet est un template de base. N'hésitez pas à :
+- Ajouter de nouvelles fonctionnalités
+- Améliorer la documentation
+- Proposer des optimisations
+
+---
+
+**Virgin** - Un départ solide pour vos projets Next.js 🚀
+
+**Anthony Boschat**, Développeur full-stack
