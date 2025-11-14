@@ -94,6 +94,9 @@ setup:
 	@echo "🗄️  Migration de la base de données..."
 	@$(MAKE) migrate
 
+	@echo "🌱 Seed de la base..."
+	@$(MAKE) seed
+
 	@echo "✨ Setup terminé !"
 
 # Redémarrage propre
