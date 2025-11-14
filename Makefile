@@ -88,9 +88,6 @@ setup:
 	@echo "✅ Génération du client Prisma..."
 	@$(MAKE) generate
 
-	@echo "🗄️  Reset de la base de données (DEV, toutes les données seront perdues)..."
-	@$(MAKE) reset
-
 	@echo "🗄️  Migration de la base de données..."
 	@$(MAKE) migrate
 
