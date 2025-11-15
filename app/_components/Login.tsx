@@ -13,20 +13,18 @@ interface LoginProps{
     setPassword: Dispatch<SetStateAction<string>>;
 }
 
-export default function AppLogin({
-    email, setEmail,
-    password, setPassword
-}:LoginProps) {
+export default function AppLogin(props:LoginProps) {
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false
-    })
+    const payload = {
+      email: props.email,
+      password: props.password,
+      redirect:false
+    }
+    const result = await signIn("credentials", payload)
     
     if (result?.error) {
       toast.error("Impossible de vous connecter. Vérifiez vos identifiants et réessayez.")
@@ -41,15 +39,15 @@ export default function AppLogin({
     <form className={s.formAuth} onSubmit={handleSubmit}>
       <input
         type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={props.email}
+        onChange={(e) => props.setEmail(e.target.value)}
         placeholder="E-mail"
         required
       />
       <input
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={props.password}
+        onChange={(e) => props.setPassword(e.target.value)}
         placeholder="Mot de passe"
         required
       />

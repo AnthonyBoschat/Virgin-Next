@@ -24,6 +24,7 @@ export default function AppAuth(){
     const [emailRegister, setEmailRegister] = useState("")
     const [passwordRegister, setPasswordRegister] = useState("")
     const [nameRegister, setNameRegister] = useState("")
+    const [confirmationRegister, setConfirmationRegister] = useState("")
 
 
     return(
@@ -44,12 +45,14 @@ export default function AppAuth(){
 
             {tab === "register" && (
                 <AppRegister
+                    name={nameRegister}
+                    setName={setNameRegister}
                     email={emailRegister}
                     setEmail={setEmailRegister}
                     password={passwordRegister}
                     setPassword={setPasswordRegister}
-                    name={nameRegister}
-                    setName={setNameRegister}
+                    confirmation={confirmationRegister}
+                    setConfirmation={setConfirmationRegister}
                 />
             )}
         </>
